@@ -1,0 +1,1 @@
+${ci}${ci}${ci}${initialCaseEntityName}Query ${initialLowercaseEntityName}Query = new ${initialCaseEntityName}Query();

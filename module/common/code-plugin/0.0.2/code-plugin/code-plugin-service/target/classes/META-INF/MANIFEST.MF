@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: code-plugin-service
+Implementation-Version: 0.0.2
+Built-By: moonnow
+Implementation-Vendor-Id: com.pro
+Build-Jdk: 1.8.0_181
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/pro-rely/code-plugin/code-plugin-service
+Created-By: Maven Integration for Eclipse
+

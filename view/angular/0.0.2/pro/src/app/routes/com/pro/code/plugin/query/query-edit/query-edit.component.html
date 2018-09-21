@@ -1,0 +1,66 @@
+<page-header [title]="'编辑查询'">
+  请填写查询。
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="queryForm" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="dtId">数据库表编号</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择一个数据库表" formControlName="dtId" id="dtId" (ngModelChange)="ngModelChangeDtId($event)">
+            <nz-option *ngFor="let o of dtDataSet" [nzValue]="o.dtId" [nzLabel]="dtDisplay(o.dtName, o.dtNameAnnotation)"></nz-option>
+          </nz-select>
+          <ng-container *ngIf="dtId.dirty || dtId.touched">
+            <nz-form-explain *ngIf="dtId.errors?.required">请输入数据库表编号</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="columnsId">列编号</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择一个列" formControlName="columnsId" id="columnsId">
+            <nz-option *ngFor="let o of columnsDataSet" [nzValue]="o.columnsId" [nzLabel]="columnsDisplay(o.columnName, o.columnNameAnnotation)"></nz-option>
+          </nz-select>
+          <ng-container *ngIf="columnsId.dirty || columnsId.touched">
+            <nz-form-explain *ngIf="columnsId.errors?.required">请输入列编号</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="queryType">查询类型</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择查询类型" formControlName="queryType" id="queryType">
+            <nz-option nzValue="keyLike" nzLabel="关键字查询 [ keyLike ]"></nz-option>
+            <nz-option nzValue="like" nzLabel="模糊查询 [ like ]"></nz-option>
+            <nz-option nzValue="in" nzLabel="包含 [ in ]"></nz-option>
+            <nz-option nzValue="nin" nzLabel="不包含 [ nin ]"></nz-option>
+            <nz-option nzValue="unique" nzLabel="唯一 [ unique ]"></nz-option>
+            <nz-option nzValue="eachUnique" nzLabel="每个唯一 [ eachUnique ]"></nz-option>
+            <nz-option nzValue="g" nzLabel="大于 [ g ]"></nz-option>
+            <nz-option nzValue="l" nzLabel="小于 [ l ]"></nz-option>
+            <nz-option nzValue="ge" nzLabel="大于等于 [ ge ]"></nz-option>
+            <nz-option nzValue="le" nzLabel="小于等于 [ le ]"></nz-option>
+            <nz-option nzValue="ne" nzLabel="不等于 [ ne ]"></nz-option>
+          </nz-select>
+          <ng-container *ngIf="queryType.dirty || queryType.touched">
+            <nz-form-explain *ngIf="queryType.errors?.required">请输入查询类型</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="weightOrder">排序权重</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <nz-input-number formControlName="weightOrder" id="weightOrder" placeholder="输入排序权重"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+          <a nz-button class="ml-sm" (click)="goBack()">取消</a>
+          <a nz-button nzType="dashed" (click)="resetForm()">重置</a>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isContinue()">保存并继续录入</button>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isNotContinue()">保存</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+</nz-card>

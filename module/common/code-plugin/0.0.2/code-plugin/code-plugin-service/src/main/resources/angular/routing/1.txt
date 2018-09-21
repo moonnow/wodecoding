@@ -1,0 +1,19 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { ${initialCaseEntityName}ListComponent } from './${initialLowercaseEntityName}-list/${initialLowercaseEntityName}-list.component';
+import { ${initialCaseEntityName}EditComponent } from './${initialLowercaseEntityName}-edit/${initialLowercaseEntityName}-edit.component';
+import { ${initialCaseEntityName}DetailComponent } from './${initialLowercaseEntityName}-detail/${initialLowercaseEntityName}-detail.component';
+
+const routes: Routes = [
+${ci}{ path: 'list', component: ${initialCaseEntityName}ListComponent },
+${ci}{ path: 'edit', component: ${initialCaseEntityName}EditComponent },
+${ci}{ path: 'edit/:${primaryKeyInitialLowercaseColumnName}', component: ${initialCaseEntityName}EditComponent, data: { title: '编辑${dtNameAnnotation}' } },
+${ci}{ path: 'detail/:${primaryKeyInitialLowercaseColumnName}', component: ${initialCaseEntityName}DetailComponent, data: { title: '${dtNameAnnotation}详情' } }
+];
+
+@NgModule({
+${ci}imports: [RouterModule.forChild(routes)],
+${ci}exports: [RouterModule]
+})
+export class ${initialCaseEntityName}RoutingModule { }

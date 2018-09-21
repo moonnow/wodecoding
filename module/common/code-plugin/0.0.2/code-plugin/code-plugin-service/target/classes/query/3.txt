@@ -1,0 +1,7 @@
+${ci}public ${dataType} get${initialCaseColumnName}() {
+${ci}${ci}return ${initialLowercaseColumnName};
+${ci}}
+
+${ci}public void set${initialCaseColumnName}(${dataType} ${initialLowercaseColumnName}) {
+${ci}${ci}this.${initialLowercaseColumnName} = ${initialLowercaseColumnName};
+${ci}}

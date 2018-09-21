@@ -1,0 +1,26 @@
+<div class="content__title">
+  <h1>
+    工具
+    <small>使用步骤</small>
+  </h1>
+</div>
+<nz-card [nzBordered]="false">
+  <nz-steps nzDirection="vertical" nzSize="small">
+    <nz-step nzTitle="Mysql数据库建表" nzStatus="wait"></nz-step>
+    <nz-step nzTitle="使用 mysqldump 备份表结构" nzStatus="wait" [nzDescription]="template1"></nz-step>
+    <nz-step nzTitle="录入数据库表sql 自动编码 >>> 数据库表管理 >>> 提取数据" nzStatus="wait"></nz-step>
+    <nz-step nzTitle="生成代码 自动编码 >>> 编码" nzStatus="wait"></nz-step>
+    <nz-step nzTitle="配置默认排序" nzStatus="wait"></nz-step>
+    <nz-step nzTitle="配置查询" nzStatus="wait" [nzDescription]="template2"></nz-step>
+    <nz-step nzTitle="完成" nzStatus="wait"></nz-step>
+  </nz-steps>
+</nz-card>
+<ng-template #template1>
+  <h6 class="h6">命令如下：</h6>
+  <h6 class="h6">mysqldump -hlocalhost -P3306 -uroot -pmoonnow pro PRO_QUERY > PRO_QUERY.sql</h6>
+  <h6 class="h6">-------------数据库地址---端口--用户名---密码---数据库名--表名----------文件名</h6>
+</ng-template>
+<ng-template #template2>
+  <h6 class="h6">数字的默认值为零 所以数据类型为数字的字段查询时 遇到零会排除 不追加sql</h6>
+  <h6 class="h6">查询类字段的生成顺序按照排序权重的配置 默认生成的排序权重不要更改</h6>
+</ng-template>

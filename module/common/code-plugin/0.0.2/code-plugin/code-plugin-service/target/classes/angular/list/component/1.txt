@@ -1,0 +1,22 @@
+import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
+import { Router } from '@angular/router';
+import { SimpleTableColumn, SimpleTableChange, SimpleTableFilter, SimpleTableButton } from '@delon/abc';
+
+import { ${initialCaseEntityName}Service } from '@com/${controllerUrl}${initialLowercaseEntityName}/${initialLowercaseEntityName}.service';
+
+@Component({
+${ci}selector: '${initialLowercaseEntityName}-list',
+${ci}templateUrl: './${initialLowercaseEntityName}-list.component.html',
+${ci}styleUrls: ['./${initialLowercaseEntityName}-list.component.css']
+})
+export class ${initialCaseEntityName}ListComponent implements OnInit {
+${ci}dataSet: any[];
+${ci}list: any[];
+${ci}listLength: number;
+${ci}count: number;
+${ci}rows: number;
+${ci}page: number;
+${ci}isSpinning: boolean;
+${ci}columns: SimpleTableColumn[] = [
+${ci}${ci}{ title: '${primaryKeyColumnNameAnnotation}', index: '${primaryKeyInitialLowercaseColumnName}', type: 'checkbox', fixed: 'left', width: '1px' },

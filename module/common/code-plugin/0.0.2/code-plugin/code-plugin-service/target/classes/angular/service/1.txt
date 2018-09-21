@@ -1,0 +1,105 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { ToolService } from '@com/pro/tool/tool.service';
+import { Parameter } from '@com/pro/tool/parameter';
+import { ${initialCaseEntityName} } from '@com/${controllerUrl}${initialLowercaseEntityName}/${initialLowercaseEntityName}';
+import { ${initialCaseEntityName}Query } from '@com/${controllerUrl}${initialLowercaseEntityName}/${initialLowercaseEntityName}-query';
+
+@Injectable({
+${ci}providedIn: 'root'
+})
+export class ${initialCaseEntityName}Service {
+${ci}url: string;
+${ci}parameter: Parameter;
+
+${ci}constructor(
+${ci}${ci}private http: HttpClient,
+${ci}${ci}private toolService: ToolService
+${ci}) {
+${ci}${ci}this.url = '${controllerUrl}${initialLowercaseEntityName}';
+${ci}}
+
+${ci}save(${initialLowercaseEntityName}: ${initialCaseEntityName}) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.save;
+${ci}${ci}return this.http.post(this.url + this.toolService.getUrl(this.parameter), ${initialLowercaseEntityName}, this.toolService.httpOptions);
+${ci}}
+
+${ci}batchSave(${initialLowercaseEntityName}: ${initialCaseEntityName} | Array<${initialCaseEntityName}>) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.batchSave;
+${ci}${ci}if (${initialLowercaseEntityName} instanceof Array) {
+${ci}${ci}${ci}return this.http.post(this.url + this.toolService.getUrl(this.parameter), ${initialLowercaseEntityName}, this.toolService.httpOptions);
+${ci}${ci}} else {
+${ci}${ci}${ci}return this.http.post(this.url + this.toolService.getUrl(this.parameter), new Array(${initialLowercaseEntityName}), this.toolService.httpOptions);
+${ci}${ci}}
+${ci}}
+
+${ci}update(${initialLowercaseEntityName}: ${initialCaseEntityName}) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.update;
+${ci}${ci}return this.http.put(this.url + this.toolService.getUrl(this.parameter), ${initialLowercaseEntityName}, this.toolService.httpOptions);
+${ci}}
+
+${ci}batchUpdate(${initialLowercaseEntityName}: ${initialCaseEntityName} | Array<${initialCaseEntityName}>) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.batchUpdate;
+${ci}${ci}if (${initialLowercaseEntityName} instanceof Array) {
+${ci}${ci}${ci}return this.http.put(this.url + this.toolService.getUrl(this.parameter), ${initialLowercaseEntityName}, this.toolService.httpOptions);
+${ci}${ci}} else {
+${ci}${ci}${ci}return this.http.put(this.url + this.toolService.getUrl(this.parameter), new Array(${initialLowercaseEntityName}), this.toolService.httpOptions);
+${ci}${ci}}
+${ci}}
+
+${ci}remove(${initialLowercaseEntityName}: ${initialCaseEntityName}) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.remove;
+${ci}${ci}let httpOptions = this.toolService.httpOptions;
+${ci}${ci}httpOptions['body'] = ${initialLowercaseEntityName};
+${ci}${ci}return this.http.request(this.toolService.DELETE, this.url + this.toolService.getUrl(this.parameter), httpOptions);
+${ci}}
+
+${ci}batchRemove(${initialLowercaseEntityName}: ${initialCaseEntityName} | Array<${initialCaseEntityName}>) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.batchRemove;
+${ci}${ci}let httpOptions = this.toolService.httpOptions;
+${ci}${ci}if (${initialLowercaseEntityName} instanceof Array) {
+${ci}${ci}${ci}httpOptions['body'] = ${initialLowercaseEntityName};
+${ci}${ci}} else {
+${ci}${ci}${ci}httpOptions['body'] = new Array(${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}return this.http.request(this.toolService.DELETE, this.url + this.toolService.getUrl(this.parameter), httpOptions);
+${ci}}
+
+${ci}getByPk(primaryKey: string) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.getByPk;
+${ci}${ci}this.parameter.primaryKey = primaryKey;
+${ci}${ci}return this.http.get(this.url + this.toolService.getUrl(this.parameter), this.toolService.httpOptions);
+${ci}}
+
+${ci}getAll() {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.getAll;
+${ci}${ci}return this.http.post(this.url + this.toolService.getUrl(this.parameter), this.toolService.httpOptions);
+${ci}}
+
+${ci}paging(rows: number, page: number) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.paging;
+${ci}${ci}return this.http.post(this.url + this.toolService.getPagingUrl(this.parameter, rows, page), this.toolService.httpOptions);
+${ci}}
+
+${ci}query(${initialLowercaseEntityName}Query: ${initialCaseEntityName}Query) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.getAll;
+${ci}${ci}return this.http.post(this.url + this.toolService.getUrl(this.parameter), ${initialLowercaseEntityName}Query, this.toolService.httpOptions);
+${ci}}
+
+${ci}pagingQuery(${initialLowercaseEntityName}Query: ${initialCaseEntityName}Query, rows: number, page: number) {
+${ci}${ci}this.parameter = new Parameter();
+${ci}${ci}this.parameter.action = this.toolService.paging;
+${ci}${ci}return this.http.post(this.url + this.toolService.getPagingUrl(this.parameter, rows, page), ${initialLowercaseEntityName}Query, this.toolService.httpOptions);
+${ci}}
+}

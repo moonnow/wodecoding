@@ -1,0 +1,744 @@
+<page-header [title]="'自动编码'">
+  <div nz-row nzType="flex" nzJustify="center" nzGutter="16">
+    <div nz-col nzSpan="18">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="请选择一个数据库表" [(ngModel)]="selectedDtPrimaryKey" (ngModelChange)="ngModelChangeDt($event)">
+            <nz-option *ngFor="let o of dtDataSet" [nzValue]="o.dtId" [nzLabel]="o.dtName"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="2">
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" (click)="codingAll()">一 键 生 成</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</page-header>
+<nz-card [nzBordered]="false" nzTitle="生成项目">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="pro项目" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">项目路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.projectPath" [disabled]="projectPathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upProjectPath()" *ngIf="projectPathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveProjectPath()" *ngIf="!projectPathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingProject()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成实体类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="Jdbc实体类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.jdbcEntityFilePath" [disabled]="jdbcEntityFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upJdbcEntityFilePath()" *ngIf="jdbcEntityFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveJdbcEntityFilePath()" *ngIf="!jdbcEntityFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingJdbcEntity()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+      <!-- <nz-collapse-panel nzHeader="生成Hibernate实体类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.hibernateEntityFilePath" [disabled]="hibernateEntityFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upHibernateEntityFilePath()" *ngIf="hibernateEntityFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveHibernateEntityFilePath()" *ngIf="!hibernateEntityFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingHibernateEntity()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel> -->
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成查询类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="Java查询类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.queryFilePath" [disabled]="queryFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upQueryFilePath()" *ngIf="queryFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveQueryFilePath()" *ngIf="!queryFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingQuery()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成异常类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="异常类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.exceptionFilePath" [disabled]="exceptionFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upExceptionFilePath()" *ngIf="exceptionFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveExceptionFilePath()" *ngIf="!exceptionFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingException()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成持久化接口类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="持久化接口类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.iPersistentFilePath" [disabled]="iPersistentFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upIPersistentFilePath()" *ngIf="iPersistentFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveIPersistentFilePath()" *ngIf="!iPersistentFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingIPersistent()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成Jdbc持久化实现类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="Jdbc持久化实现类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.jdbcPersistentImplFilePath" [disabled]="jdbcPersistentImplFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upJdbcPersistentImplFilePath()" *ngIf="jdbcPersistentImplFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveJdbcPersistentImplFilePath()" *ngIf="!jdbcPersistentImplFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingJdbcPersistentImpl()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成服务接口类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="服务接口类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.iServiceFilePath" [disabled]="iServiceFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upIServiceFilePath()" *ngIf="iServiceFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveIServiceFilePath()" *ngIf="!iServiceFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingIService()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成服务实现类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="服务实现类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.serviceImplFilePath" [disabled]="serviceImplFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upServiceImplFilePath()" *ngIf="serviceImplFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveServiceImplFilePath()" *ngIf="!serviceImplFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingServiceImpl()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成控制器类">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="控制器类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.controllerFilePath" [disabled]="controllerFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upControllerFilePath()" *ngIf="controllerFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveControllerFilePath()" *ngIf="!controllerFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingController()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>
+<nz-card [nzBordered]="false" nzTitle="生成Angular页面">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="模块" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.angularModuleFilePath" [disabled]="angularModuleFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularModuleFilePath()" *ngIf="angularModuleFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularModuleFilePath()" *ngIf="!angularModuleFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularModule()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="路由" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.angularRoutingFilePath" [disabled]="angularRoutingFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularRoutingFilePath()" *ngIf="angularRoutingFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularRoutingFilePath()" *ngIf="!angularRoutingFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularRouting()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="实体类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.angularEntityFilePath" [disabled]="angularEntityFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularEntityFilePath()" *ngIf="angularEntityFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularEntityFilePath()" *ngIf="!angularEntityFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularEntity()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="查询类" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.angularQueryFilePath" [disabled]="angularQueryFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularQueryFilePath()" *ngIf="angularQueryFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularQueryFilePath()" *ngIf="!angularQueryFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularQuery()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="服务" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="2">文件路径</nz-form-label>
+              <nz-form-control nzSpan="21">
+                <input nz-input [(ngModel)]="config.angularServiceFilePath" [disabled]="angularServiceFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularServiceFilePath()" *ngIf="angularServiceFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularServiceFilePath()" *ngIf="!angularServiceFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularService()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="列表" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">组件文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularListComponentFilePath" [disabled]="angularListComponentFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularListComponentFilePath()" *ngIf="angularListComponentFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularListComponentFilePath()" *ngIf="!angularListComponentFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularListComponent()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">网页文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularListHtmlFilePath" [disabled]="angularListHtmlFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularListHtmlFilePath()" *ngIf="angularListHtmlFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularListHtmlFilePath()" *ngIf="!angularListHtmlFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularListHtml()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">样式文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularListCssFilePath" [disabled]="angularListCssFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularListCssFilePath()" *ngIf="angularListCssFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularListCssFilePath()" *ngIf="!angularListCssFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularListCss()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="编辑" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">组件文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularEditComponentFilePath" [disabled]="angularEditComponentFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularEditComponentFilePath()" *ngIf="angularEditComponentFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularEditComponentFilePath()" *ngIf="!angularEditComponentFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularEditComponent()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">网页文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularEditHtmlFilePath" [disabled]="angularEditHtmlFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularEditHtmlFilePath()" *ngIf="angularEditHtmlFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularEditHtmlFilePath()" *ngIf="!angularEditHtmlFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularEditHtml()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">样式文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularEditCssFilePath" [disabled]="angularEditCssFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularEditCssFilePath()" *ngIf="angularEditCssFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularEditCssFilePath()" *ngIf="!angularEditCssFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularEditCss()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel nzHeader="详情" nzActive="true">
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">组件文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularDetailComponentFilePath" [disabled]="angularDetailComponentFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularDetailComponentFilePath()" *ngIf="angularDetailComponentFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularDetailComponentFilePath()" *ngIf="!angularDetailComponentFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularDetailComponent()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">网页文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularDetailHtmlFilePath" [disabled]="angularDetailHtmlFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularDetailHtmlFilePath()" *ngIf="angularDetailHtmlFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularDetailHtmlFilePath()" *ngIf="!angularDetailHtmlFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularDetailHtml()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-row nzType="flex" nzJustify="center">
+          <div nz-col nzSpan="18">
+            <nz-form-item>
+              <nz-form-label nzSpan="3">样式文件路径</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <input nz-input [(ngModel)]="config.angularDetailCssFilePath" [disabled]="angularDetailCssFilePathInputIsDisabled">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="dashed" (click)="upAngularDetailCssFilePath()" *ngIf="angularDetailCssFilePathInputIsDisabled">修 改</button>
+                <button nz-button nzType="primary" (click)="saveAngularDetailCssFilePath()" *ngIf="!angularDetailCssFilePathInputIsDisabled">保 存</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="2">
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="default" (click)="codingAngularDetailCss()">生 成</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-spin>
+</nz-card>

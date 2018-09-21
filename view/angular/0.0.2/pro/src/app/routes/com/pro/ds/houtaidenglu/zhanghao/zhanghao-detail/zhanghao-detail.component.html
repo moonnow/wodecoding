@@ -1,0 +1,18 @@
+<page-header [title]="'账号详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="goBack()" [nzType]="'default'">
+      <i class="anticon anticon-left-circle-o"></i>
+      <span>返回</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <desc-list size="large" title="基本信息" class="mb-lg">
+      <desc-list-item term="账号编号">{{zhanghao.zhanghaoId}}</desc-list-item>
+      <desc-list-item term="帐号">{{zhanghao.account}}</desc-list-item>
+      <desc-list-item term="密码">{{zhanghao.password}}</desc-list-item>
+      <desc-list-item term="昵称">{{zhanghao.nicheng}}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-lg"></nz-divider>
+  </nz-spin>
+</nz-card>

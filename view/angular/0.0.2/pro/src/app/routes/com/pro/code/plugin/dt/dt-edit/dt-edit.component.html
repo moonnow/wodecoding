@@ -1,0 +1,50 @@
+<page-header [title]="'编辑数据库表信息'">
+  请填写数据库表信息。
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="dtForm" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="dtSql">数据库表sql</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <textarea nz-input [nzAutosize]="{ minRows: 5 }" formControlName="dtSql" id="dtSql" placeholder="输入数据库表sql"></textarea>
+          <ng-container *ngIf="dtSql.dirty || dtSql.touched">
+            <nz-form-explain *ngIf="dtSql.errors?.required">请输入数据库表sql</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="dtPrefix">数据库表前缀</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="dtPrefix" id="dtPrefix" placeholder="输入数据库表前缀">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="proPath">项目路径</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="proPath" id="proPath" placeholder="输入项目路径">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="proAllName">项目全称</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="proAllName" id="proAllName" placeholder="输入项目全称">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="proName">项目名称</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="proName" id="proName" placeholder="输入项目名称">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+          <a nz-button class="ml-sm" (click)="goBack()">取消</a>
+          <a nz-button nzType="dashed" (click)="resetForm()">重置</a>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isContinue()">保存并继续录入</button>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isNotContinue()">保存</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+</nz-card>

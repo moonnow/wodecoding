@@ -1,0 +1,1 @@
+${ci}${ci}${ci}<desc-list-item term="${columnNameAnnotation}">{{${initialLowercaseEntityName}.${initialLowercaseColumnName}}}</desc-list-item>

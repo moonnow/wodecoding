@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pro.code.plugin.mapper.ColumnsMapper">
+  <resultMap id="BaseResultMap" type="com.pro.code.plugin.entity.Columns">
+    <id column="COLUMNS_ID" jdbcType="CHAR" property="columnsId" />
+    <result column="COLUMN_NAME" jdbcType="VARCHAR" property="columnName" />
+    <result column="COLUMN_NAME_ANNOTATION" jdbcType="VARCHAR" property="columnNameAnnotation" />
+    <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+    <result column="IS_NULL" jdbcType="CHAR" property="isNull" />
+    <result column="INITIAL_CASE_COLUMN_NAME" jdbcType="VARCHAR" property="initialCaseColumnName" />
+    <result column="INITIAL_LOWERCASE_COLUMN_NAME" jdbcType="VARCHAR" property="initialLowercaseColumnName" />
+    <result column="WEIGHT_ORDER" jdbcType="INTEGER" property="weightOrder" />
+    <result column="DT_ID" jdbcType="CHAR" property="dtId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    COLUMNS_ID, COLUMN_NAME, COLUMN_NAME_ANNOTATION, DATA_TYPE, IS_NULL, INITIAL_CASE_COLUMN_NAME, 
+    INITIAL_LOWERCASE_COLUMN_NAME, WEIGHT_ORDER, DT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PRO_COLUMNS
+    where COLUMNS_ID = #{columnsId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from PRO_COLUMNS
+    where COLUMNS_ID = #{columnsId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pro.code.plugin.entity.Columns">
+    insert into PRO_COLUMNS (COLUMNS_ID, COLUMN_NAME, COLUMN_NAME_ANNOTATION, 
+      DATA_TYPE, IS_NULL, INITIAL_CASE_COLUMN_NAME, 
+      INITIAL_LOWERCASE_COLUMN_NAME, WEIGHT_ORDER, 
+      DT_ID)
+    values (#{columnsId,jdbcType=CHAR}, #{columnName,jdbcType=VARCHAR}, #{columnNameAnnotation,jdbcType=VARCHAR}, 
+      #{dataType,jdbcType=VARCHAR}, #{isNull,jdbcType=CHAR}, #{initialCaseColumnName,jdbcType=VARCHAR}, 
+      #{initialLowercaseColumnName,jdbcType=VARCHAR}, #{weightOrder,jdbcType=INTEGER}, 
+      #{dtId,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pro.code.plugin.entity.Columns">
+    insert into PRO_COLUMNS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="columnsId != null">
+        COLUMNS_ID,
+      </if>
+      <if test="columnName != null">
+        COLUMN_NAME,
+      </if>
+      <if test="columnNameAnnotation != null">
+        COLUMN_NAME_ANNOTATION,
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE,
+      </if>
+      <if test="isNull != null">
+        IS_NULL,
+      </if>
+      <if test="initialCaseColumnName != null">
+        INITIAL_CASE_COLUMN_NAME,
+      </if>
+      <if test="initialLowercaseColumnName != null">
+        INITIAL_LOWERCASE_COLUMN_NAME,
+      </if>
+      <if test="weightOrder != null">
+        WEIGHT_ORDER,
+      </if>
+      <if test="dtId != null">
+        DT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="columnsId != null">
+        #{columnsId,jdbcType=CHAR},
+      </if>
+      <if test="columnName != null">
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnNameAnnotation != null">
+        #{columnNameAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="isNull != null">
+        #{isNull,jdbcType=CHAR},
+      </if>
+      <if test="initialCaseColumnName != null">
+        #{initialCaseColumnName,jdbcType=VARCHAR},
+      </if>
+      <if test="initialLowercaseColumnName != null">
+        #{initialLowercaseColumnName,jdbcType=VARCHAR},
+      </if>
+      <if test="weightOrder != null">
+        #{weightOrder,jdbcType=INTEGER},
+      </if>
+      <if test="dtId != null">
+        #{dtId,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pro.code.plugin.entity.Columns">
+    update PRO_COLUMNS
+    <set>
+      <if test="columnName != null">
+        COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnNameAnnotation != null">
+        COLUMN_NAME_ANNOTATION = #{columnNameAnnotation,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="isNull != null">
+        IS_NULL = #{isNull,jdbcType=CHAR},
+      </if>
+      <if test="initialCaseColumnName != null">
+        INITIAL_CASE_COLUMN_NAME = #{initialCaseColumnName,jdbcType=VARCHAR},
+      </if>
+      <if test="initialLowercaseColumnName != null">
+        INITIAL_LOWERCASE_COLUMN_NAME = #{initialLowercaseColumnName,jdbcType=VARCHAR},
+      </if>
+      <if test="weightOrder != null">
+        WEIGHT_ORDER = #{weightOrder,jdbcType=INTEGER},
+      </if>
+      <if test="dtId != null">
+        DT_ID = #{dtId,jdbcType=CHAR},
+      </if>
+    </set>
+    where COLUMNS_ID = #{columnsId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pro.code.plugin.entity.Columns">
+    update PRO_COLUMNS
+    set COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      COLUMN_NAME_ANNOTATION = #{columnNameAnnotation,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      IS_NULL = #{isNull,jdbcType=CHAR},
+      INITIAL_CASE_COLUMN_NAME = #{initialCaseColumnName,jdbcType=VARCHAR},
+      INITIAL_LOWERCASE_COLUMN_NAME = #{initialLowercaseColumnName,jdbcType=VARCHAR},
+      WEIGHT_ORDER = #{weightOrder,jdbcType=INTEGER},
+      DT_ID = #{dtId,jdbcType=CHAR}
+    where COLUMNS_ID = #{columnsId,jdbcType=CHAR}
+  </update>
+</mapper>

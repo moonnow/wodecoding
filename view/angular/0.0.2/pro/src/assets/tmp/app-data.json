@@ -1,0 +1,144 @@
+{
+  "app": {
+    "name": "Alain",
+    "description": "Ng-zorro admin panel front-end framework"
+  },
+  "user": {
+    "name": "Admin",
+    "avatar": "./assets/tmp/img/avatar.jpg",
+    "email": "cipchk@qq.com"
+  },
+  "menu": [
+    {
+      "text": "导航",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "text": "主页",
+          "icon": "icon-speedometer",
+          "children": [
+            {
+              "text": "系统主页",
+              "link": "/pro/homepage/system_homepage"
+            },
+            {
+              "text": "个人主页",
+              "link": "/pro/homepage/personal_homepage"
+            }
+          ]
+        },
+        {
+          "text": "快捷菜单",
+          "i18n": "shortcut",
+          "icon": "icon-rocket",
+          "shortcut_root": true,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "工具",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "text": "自动编码",
+          "icon": "anticon anticon-dingding",
+          "children": [
+            {
+              "text": "数据库表管理",
+              "link": "/pro/code/plugin/dt/list"
+            },
+            {
+              "text": "编辑数据库表",
+              "link": "/pro/code/plugin/dt/edit",
+              "hide": true
+            },
+            {
+              "text": "列管理",
+              "link": "/pro/code/plugin/columns/list"
+            },
+            {
+              "text": "编辑列",
+              "link": "/pro/code/plugin/columns/edit",
+              "hide": true
+            },
+            {
+              "text": "排序管理",
+              "link": "/pro/code/plugin/sort/list"
+            },
+            {
+              "text": "编辑排序",
+              "link": "/pro/code/plugin/sort/edit",
+              "hide": true
+            },
+            {
+              "text": "查询管理",
+              "link": "/pro/code/plugin/query/list"
+            },
+            {
+              "text": "编辑查询",
+              "link": "/pro/code/plugin/query/edit",
+              "hide": true
+            },
+            {
+              "text": "编码",
+              "link": "/pro/code/plugin/coding/view",
+              "shortcut": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "登录",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "text": "后台登录",
+          "icon": "anticon anticon-contacts",
+          "children": [
+            {
+              "text": "用户",
+              "link": "/ds/pro/common/module/account/user/list"
+            },
+            {
+              "text": "编辑用户",
+              "link": "/ds/pro/common/module/account/user/edit",
+              "hide": true
+            },
+            {
+              "text": "账号管理",
+              "link": "/ds/pro/ds/houtaidenglu/zhanghao/list"
+            },
+            {
+              "text": "编辑账号",
+              "link": "/ds/pro/ds/houtaidenglu/zhanghao/edit",
+              "hide": true
+            },
+            {
+              "text": "会话管理",
+              "link": "/ds/pro/ds/houtaidenglu/huihua/list"
+            },
+            {
+              "text": "编辑会话",
+              "link": "/ds/pro/ds/houtaidenglu/huihua/edit",
+              "hide": true
+            },
+            {
+              "text": "登录日志管理",
+              "link": "/ds/pro/ds/houtaidenglu/denglurizhi/list"
+            },
+            {
+              "text": "编辑登录日志",
+              "link": "/ds/pro/ds/houtaidenglu/denglurizhi/edit",
+              "hide": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+${ci}submit() {
+${ci}${ci}for (const i in this.${initialLowercaseEntityName}Form.controls) {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Form.controls[i].markAsDirty();
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Form.controls[i].updateValueAndValidity();
+${ci}${ci}}
+${ci}${ci}if (this.${initialLowercaseEntityName}Form.invalid) return;
+${ci}${ci}this.submitting = true;
+${ci}${ci}let ${primaryKeyInitialLowercaseColumnName} = this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName};
+${ci}${ci}if (${primaryKeyInitialLowercaseColumnName} && ${primaryKeyInitialLowercaseColumnName} !== '') {
+${ci}${ci}${ci}this.${initialLowercaseEntityName} = Object.assign(this.${initialLowercaseEntityName}, this.${initialLowercaseEntityName}Form.value);
+${ci}${ci}${ci}this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName} = ${primaryKeyInitialLowercaseColumnName};
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Service.update(this.${initialLowercaseEntityName})
+${ci}${ci}${ci}${ci}.subscribe(
+${ci}${ci}${ci}${ci}${ci}data => {
+${ci}${ci}${ci}${ci}${ci}${ci}if (data['isSuccess'] && data['statusCode'] === 200) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.submitting = false;
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.msg.success(`${dtNameAnnotation}修改成功.`);
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.resetForm();
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName} = new ${initialCaseEntityName}();
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (!this.continue)
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/list' ]);
+${ci}${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => this.submitting = false, 3000);
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error(data['msg'], { nzDuration: 10000 });
+${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}${ci}error => {
+${ci}${ci}${ci}${ci}${ci}${ci}this.submitting = false;
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error('请求失败！状态码 ' + error['status'] + ' ' + error['statusText']);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci});
+${ci}${ci}} else {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Service.save(Object.assign(this.${initialLowercaseEntityName}, this.${initialLowercaseEntityName}Form.value))
+${ci}${ci}${ci}${ci}.subscribe(
+${ci}${ci}${ci}${ci}${ci}data => {
+${ci}${ci}${ci}${ci}${ci}${ci}if (data['isSuccess'] && data['statusCode'] === 200) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.submitting = false;
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.msg.success(`${dtNameAnnotation}保存成功.`);
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.resetForm();
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName} = new ${initialCaseEntityName}();
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}if (!this.continue)
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/list' ]);
+${ci}${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}setTimeout(() => this.submitting = false, 3000);
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error(data['msg'], { nzDuration: 10000 });
+${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}${ci}error => {
+${ci}${ci}${ci}${ci}${ci}${ci}this.submitting = false;
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error('请求失败！状态码 ' + error['status'] + ' ' + error['statusText']);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci});
+${ci}${ci}}
+${ci}}
+
+${ci}goBack(): void {
+${ci}${ci}this.location.back();
+${ci}}
+
+${ci}resetForm(): void {
+${ci}${ci}this.${initialLowercaseEntityName}Form.reset();
+${ci}}
+
+${ci}isContinue(): void {
+${ci}${ci}this.continue = true;
+${ci}}
+
+${ci}isNotContinue(): void {
+${ci}${ci}this.continue = false;
+${ci}}
+}

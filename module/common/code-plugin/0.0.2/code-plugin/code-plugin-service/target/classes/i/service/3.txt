@@ -1,0 +1,25 @@
+${ci}public void save${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception;
+
+${ci}public void batchSave${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception;
+
+${ci}public void update${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception;
+
+${ci}public void batchUpdate${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception;
+
+${ci}public void remove${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception;
+
+${ci}public void batchRemove${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception;
+
+${ci}public Long getCount${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception;
+
+${ci}public ${initialCaseEntityName} get${initialCaseEntityName}ByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws ${proName}Exception;
+
+${ci}public Collection<${initialCaseEntityName}> getAll${initialCaseEntityName}() throws ${proName}Exception;
+
+${ci}public Paging<${initialCaseEntityName}> pagingGet${initialCaseEntityName}(Parameter parameter) throws ${proName}Exception;
+
+${ci}public Collection<${initialCaseEntityName}> query${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception;
+
+${ci}public Paging<${initialCaseEntityName}> pagingQuery${initialCaseEntityName}(Parameter parameter, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception;
+
+}

@@ -1,0 +1,18 @@
+<page-header [title]="'排序详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="goBack()" [nzType]="'default'">
+      <i class="anticon anticon-left-circle-o"></i>
+      <span>返回</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <desc-list size="large" title="基本信息" class="mb-lg">
+      <desc-list-item term="排序编号">{{sort.sortId}}</desc-list-item>
+      <desc-list-item term="排序规则">{{sort.sortRule}}</desc-list-item>
+      <desc-list-item term="数据库表编号">{{sort.dtId}}</desc-list-item>
+      <desc-list-item term="列编号">{{sort.columnsId}}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-lg"></nz-divider>
+  </nz-spin>
+</nz-card>

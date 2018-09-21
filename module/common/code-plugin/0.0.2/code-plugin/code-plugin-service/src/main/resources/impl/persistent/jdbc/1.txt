@@ -1,0 +1,490 @@
+package ${persistentImplPackageName};
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+
+import ${entityPackageName}.${initialCaseEntityName};
+import ${exceptionPackageName}.${proName}Exception;
+import ${iPersistentPackageName}.I${initialCaseEntityName}Persistent;
+import ${queryEntityPackageName}.${initialCaseEntityName}Query;
+import com.pro.tool.persistent.implement.ToolPersistent;
+import com.pro.tool.util.Paging;
+import com.pro.tool.util.Parameter;
+import com.pro.tool.util.ToolUtil;
+
+@org.springframework.stereotype.Repository("${persistentImplNamePrefix}${initialCaseEntityName}Persistent")
+public class ${initialCaseEntityName}PersistentImpl extends ToolPersistent implements I${initialCaseEntityName}Persistent {
+
+${ci}private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(${initialCaseEntityName}PersistentImpl.class);
+
+${ci}public static final String TABLE_ALIAS = "${initialLowercaseEntityName}";
+
+${ci}public static final LinkedHashSet<String> PRIMARY_KEY = new LinkedHashSet<>();
+${ci}public static final LinkedHashSet<String> COLUMNS = new LinkedHashSet<>();
+${ci}public static final LinkedHashMap<String, String> COLUMNS_PARAMETER = new LinkedHashMap<>();
+${ci}public static final LinkedHashMap<String, String> SORT = new LinkedHashMap<>();
+
+${ci}private static StringBuilder INSERT_SQL = new StringBuilder();
+${ci}private static StringBuilder UPDATE_SQL = new StringBuilder();
+${ci}private static StringBuilder DEL_SQL_BY_PK = new StringBuilder();
+${ci}public static StringBuilder SELECT_SQL = new StringBuilder();
+${ci}public static StringBuilder COUNT_SQL = new StringBuilder();
+${ci}public static StringBuilder COLUMN_LIST_ALIAS = new StringBuilder();
+${ci}public static StringBuilder COLUMN_LIST_NOT_ALIAS = new StringBuilder();
+
+${ci}@PostConstruct
+${ci}private void init() {
+${ci}${ci}super.init(TABLE_NAME, PRIMARY_KEY, COLUMNS, COLUMNS_PARAMETER, SORT);
+${ci}${ci}INSERT_SQL = getInsertSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER);
+${ci}${ci}UPDATE_SQL = getUpdateSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER, PRIMARY_KEY);
+${ci}${ci}DEL_SQL_BY_PK = getDelSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY);
+${ci}${ci}SELECT_SQL = getSelectSql(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS);
+${ci}${ci}COUNT_SQL = getCountSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS);
+${ci}${ci}COLUMN_LIST_ALIAS = getColumnList(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS);
+${ci}${ci}COLUMN_LIST_NOT_ALIAS = getColumnList(TABLE_NAME, COLUMNS, COLUMNS_PARAMETER);
+${ci}}
+
+${ci}@Override
+${ci}public void save${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.save${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.insert(INSERT_SQL, ${initialLowercaseEntityName});
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void batchSave${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.batchSave${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.insert(INSERT_SQL, ${initialLowercaseEntityName}s);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void update${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.update${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.update(UPDATE_SQL, ${initialLowercaseEntityName});
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void batchUpdate${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.batchUpdate${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.update(UPDATE_SQL, ${initialLowercaseEntityName}s);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void remove${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.remove${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(PRIMARY_KEY) && PRIMARY_KEY.size() == 1) {
+${ci}${ci}${ci}${ci}for (String pk : PRIMARY_KEY) {
+${ci}${ci}${ci}${ci}${ci}mapSqlParameterSource.addValue(pk, ${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.del(DEL_SQL_BY_PK, mapSqlParameterSource);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public void batchRemove${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.batchRemove${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}this.del(DEL_SQL_BY_PK, ${initialLowercaseEntityName}s);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Long getCount${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.getCount${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return this.queryCount(countSql, ${initialLowercaseEntityName}Query, Long.class);
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName} get${initialCaseEntityName}ByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.get${initialCaseEntityName}ByPk ");
+${ci}${ci}${ci}log.debug("parameter ${primaryKeyInitialLowercaseColumnName} is : " + ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${primaryKeyInitialLowercaseColumnName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${primaryKeyInitialLowercaseColumnName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
+${ci}${ci}${ci}querySql.append(this.getByPkSql(COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(PRIMARY_KEY) && PRIMARY_KEY.size() == 1) {
+${ci}${ci}${ci}${ci}for (String pk : PRIMARY_KEY) {
+${ci}${ci}${ci}${ci}${ci}mapSqlParameterSource.addValue(pk, ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = this.query(querySql, mapSqlParameterSource, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}return ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set) ? ${initialLowercaseEntityName}Set.iterator().next() : null;
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> getAll${initialCaseEntityName}() throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.getAll${initialCaseEntityName} ");
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
+${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
+${ci}${ci}${ci}return this.query(querySql, ${initialCaseEntityName}.class);
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}> pagingGet${initialCaseEntityName}(Parameter parameter) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.pagingGet${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (parameter == null) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " parameter ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (parameter.getRows() < 0) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_CONT_LONG_ERROR, new String[] { " rows ", " 大于等于0" });
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (parameter.getPage() < 1) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_CONT_LONG_ERROR, new String[] { " page ", " 大于等于1" });
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Paging<${initialCaseEntityName}> paging = new Paging<>(parameter);
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}Long count = this.queryCount(countSql, Long.class);
+${ci}${ci}${ci}paging.setCount(count);
+${ci}${ci}${ci}if (count > 0) {
+${ci}${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}${ci}querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
+${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = this.query(querySql, ${initialCaseEntityName}.class);
+${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}Set<String> in${primaryKeyInitialCaseColumnName} = new LinkedHashSet<>();
+${ci}${ci}${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}Set) {
+${ci}${ci}${ci}${ci}${ci}${ci}in${primaryKeyInitialCaseColumnName}.add(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName}Query ${initialLowercaseEntityName}Query = new ${initialCaseEntityName}Query();
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Query.set${primaryKeyInitialCaseColumnName}Andin(new ArrayList<>(in${primaryKeyInitialCaseColumnName}));
+${ci}${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> r${initialCaseEntityName}Set = this.query${initialCaseEntityName}(${initialLowercaseEntityName}Query);
+${ci}${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(r${initialCaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}${ci}paging.setData(r${initialCaseEntityName}Set);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return paging;
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> query${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.query${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(SELECT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}querySql.append(this.getSortSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS));
+${ci}${ci}${ci}return this.query(querySql, ${initialCaseEntityName}.class, ${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}> pagingQuery${initialCaseEntityName}(Parameter parameter, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.pagingQuery${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (parameter == null) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " parameter ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (parameter.getRows() < 0) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_CONT_LONG_ERROR, new String[] { " rows ", " 大于等于0" });
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (parameter.getPage() < 1) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_CONT_LONG_ERROR, new String[] { " page ", " 大于等于1" });
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Paging<${initialCaseEntityName}> paging = new Paging<>(parameter);
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}Long count = this.queryCount(countSql, Long.class);
+${ci}${ci}${ci}paging.setCount(count);
+${ci}${ci}${ci}if (count > 0) {
+${ci}${ci}${ci}${ci}StringBuilder querySql = new StringBuilder(this.getPagingSql(TABLE_NAME, COLUMNS_PARAMETER, PRIMARY_KEY, TABLE_ALIAS));
+${ci}${ci}${ci}${ci}querySql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}querySql.append(this.getPagingSql(SORT, COLUMNS_PARAMETER, TABLE_ALIAS, paging));
+${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = this.query(querySql, ${initialCaseEntityName}.class, ${initialLowercaseEntityName}Query);
+${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}Set<String> in${primaryKeyInitialCaseColumnName} = new LinkedHashSet<>();
+${ci}${ci}${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}Set) {
+${ci}${ci}${ci}${ci}${ci}${ci}in${primaryKeyInitialCaseColumnName}.add(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName}Query r${initialCaseEntityName}Query = new ${initialCaseEntityName}Query();
+${ci}${ci}${ci}${ci}${ci}r${initialCaseEntityName}Query.set${primaryKeyInitialCaseColumnName}Andin(new ArrayList<>(in${primaryKeyInitialCaseColumnName}));
+${ci}${ci}${ci}${ci}${ci}Collection<${initialCaseEntityName}> r${initialCaseEntityName}Set = this.query${initialCaseEntityName}(r${initialCaseEntityName}Query);
+${ci}${ci}${ci}${ci}${ci}if (ToolUtil.isNotEmpty(r${initialCaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${ci}${ci}paging.setData(r${initialCaseEntityName}Set);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return paging;
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public boolean isUnique(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Persistent.isUnique ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}StringBuilder countSql = new StringBuilder(COUNT_SQL);
+${ci}${ci}${ci}if (!ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}countSql.append(this.getQuerySql(COLUMNS, COLUMNS_PARAMETER, TABLE_ALIAS, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Long count = this.queryCount(countSql, ${initialLowercaseEntityName}Query, Long.class);
+${ci}${ci}${ci}return count < 1;
+${ci}${ci}} catch (org.springframework.dao.DataAccessException e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_DAO_ACCESS_ERROR, e.getMessage());
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public String getNotUniqueErrorMessage(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}return this.getNotUniqueErrorMsg(COLUMNS, COLUMNS_PARAMETER, ${initialLowercaseEntityName}Query).toString();
+${ci}}
+
+}

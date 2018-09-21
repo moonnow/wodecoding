@@ -1,0 +1,225 @@
+package ${controllerPackageName};
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import ${entityPackageName}.${initialCaseEntityName};
+import ${exceptionPackageName}.${proName}Exception;
+import ${queryEntityPackageName}.${initialCaseEntityName}Query;
+import ${iServicePackageName}.I${proName}Service;
+import com.pro.tool.rest.ToolController;
+import com.pro.tool.util.Parameter;
+import com.pro.tool.util.Responses;
+import com.pro.tool.util.ToolUtil;
+
+@org.springframework.stereotype.Controller
+@org.springframework.context.annotation.Scope("prototype")
+@RequestMapping(value = { "${controllerUrl}${initialLowercaseEntityName}" })
+public class ${initialCaseEntityName}Controller extends ToolController {
+
+${ci}private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(${initialCaseEntityName}Controller.class);
+
+${ci}@javax.annotation.Resource(name = "${serviceImplNamePrefix}${proName}Service")
+${ci}private I${proName}Service ${initialLowercaseProName}Service;
+
+${ci}@RequestMapping(method = { RequestMethod.POST }, params = { ToolUtil.ACTION + ToolUtil.ACTION_SAVE })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> save(Parameter parameter, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.save ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseProName}Service.save${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.POST }, params = { ToolUtil.ACTION + ToolUtil.ACTION_BATCH_SAVE })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> batchSave(Parameter parameter, @RequestBody List<${initialCaseEntityName}> ${initialLowercaseEntityName}s) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.batchSave ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseProName}Service.batchSave${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.PUT }, params = { ToolUtil.ACTION + ToolUtil.ACTION_UPDATE })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> update(Parameter parameter, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.update ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseProName}Service.update${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.PUT }, params = { ToolUtil.ACTION + ToolUtil.ACTION_BATCH_UPDATE })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> batchUpdate(Parameter parameter, @RequestBody List<${initialCaseEntityName}> ${initialLowercaseEntityName}s) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.batchUpdate ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseProName}Service.batchUpdate${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.DELETE }, params = { ToolUtil.ACTION + ToolUtil.ACTION_REMOVE })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> remove(Parameter parameter, @RequestBody ${initialCaseEntityName} ${initialLowercaseEntityName}) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.remove ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseProName}Service.remove${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.DELETE }, params = { ToolUtil.ACTION + ToolUtil.ACTION_BATCH_REMOVE })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> batchRemove(Parameter parameter, @RequestBody List<${initialCaseEntityName}> ${initialLowercaseEntityName}s) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.batchRemove ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseProName}Service.batchRemove${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.GET }, params = { ToolUtil.ACTION + ToolUtil.ACTION_GET_BY_PK })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> getByPk(Parameter parameter) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.getByPk ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>();
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(parameter.getPrimaryKey())) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${primaryKeyInitialLowercaseColumnName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setData(${initialLowercaseProName}Service.get${initialCaseEntityName}ByPk(parameter.getPrimaryKey()));
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+${ci}@RequestMapping(method = { RequestMethod.POST })
+${ci}@ResponseBody
+${ci}public Responses<${initialCaseEntityName}> get(Parameter parameter, @RequestBody ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${initialCaseEntityName}Controller.get ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}Responses<${initialCaseEntityName}> responses = new Responses<>(parameter);
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName}Query == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}if (ToolUtil.ACTION_GET_ALL.equals(parameter.getAction())) {
+${ci}${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseProName}Service.getAll${initialCaseEntityName}());
+${ci}${ci}${ci}${ci}} else if (ToolUtil.ACTION_PAGING.equals(parameter.getAction())) {
+${ci}${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseProName}Service.pagingGet${initialCaseEntityName}(parameter));
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_ERROR, " action ");
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}if (ToolUtil.ACTION_GET_ALL.equals(parameter.getAction())) {
+${ci}${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseProName}Service.query${initialCaseEntityName}(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}} else if (ToolUtil.ACTION_PAGING.equals(parameter.getAction())) {
+${ci}${ci}${ci}${ci}${ci}responses.setData(${initialLowercaseProName}Service.pagingQuery${initialCaseEntityName}(parameter, ${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_ERROR, " action ");
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}responses.setException(e);
+${ci}${ci}}
+${ci}${ci}return responses;
+${ci}}
+
+}

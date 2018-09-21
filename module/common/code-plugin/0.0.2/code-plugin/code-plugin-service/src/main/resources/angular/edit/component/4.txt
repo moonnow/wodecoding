@@ -1,0 +1,3 @@
+${ci}get ${initialLowercaseColumnName}() {
+${ci}${ci}return this.${initialLowercaseEntityName}Form.controls['${initialLowercaseColumnName}'];
+${ci}}

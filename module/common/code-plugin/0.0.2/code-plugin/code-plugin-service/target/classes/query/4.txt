@@ -1,0 +1,16 @@
+${ci}@Override
+${ci}public String toString() {
+${ci}${ci}return org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString(this);
+${ci}}
+
+${ci}@Override
+${ci}public boolean equals(Object object) {
+${ci}${ci}return org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals(this, object);
+${ci}}
+
+${ci}@Override
+${ci}public int hashCode() {
+${ci}${ci}return org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode(this);
+${ci}}
+
+}

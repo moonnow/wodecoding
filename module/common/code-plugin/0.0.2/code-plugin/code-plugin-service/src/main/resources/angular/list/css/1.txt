@@ -1,0 +1,4 @@
+[nz-button] {
+${ci}margin-right: 8px;
+${ci}margin-bottom: 12px;
+}

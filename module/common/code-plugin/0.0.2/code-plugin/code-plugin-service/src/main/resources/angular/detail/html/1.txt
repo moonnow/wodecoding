@@ -1,0 +1,11 @@
+<page-header [title]="'${dtNameAnnotation}详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+${ci}<div class="mb-md">
+${ci}${ci}<button nz-button (click)="goBack()" [nzType]="'default'">
+${ci}${ci}${ci}<i class="anticon anticon-left-circle-o"></i>
+${ci}${ci}${ci}<span>返回</span>
+${ci}${ci}</button>
+${ci}</div>
+${ci}<nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+${ci}${ci}<desc-list size="large" title="基本信息" class="mb-lg">
+${ci}${ci}${ci}<desc-list-item term="${primaryKeyColumnNameAnnotation}">{{${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName}}}</desc-list-item>

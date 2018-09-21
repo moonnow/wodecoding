@@ -1,0 +1,6 @@
+${ci}${ci}${ci}<nz-form-item>
+${ci}${ci}${ci}${ci}<nz-form-label nzXs="24" nzSm="7" nzFor="${initialLowercaseColumnName}">${columnNameAnnotation}</nz-form-label>
+${ci}${ci}${ci}${ci}<nz-form-control nzXs="24" nzSm="12" nzMd="10">
+${ci}${ci}${ci}${ci}${ci}<input nz-input formControlName="${initialLowercaseColumnName}" id="${initialLowercaseColumnName}" placeholder="输入${columnNameAnnotation}">
+${ci}${ci}${ci}${ci}</nz-form-control>
+${ci}${ci}${ci}</nz-form-item>

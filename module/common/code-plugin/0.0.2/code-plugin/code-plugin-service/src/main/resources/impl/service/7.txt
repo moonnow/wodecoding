@@ -1,0 +1,3 @@
+${ci}${ci}${ci}if (!${initialLowercaseEntityName}Persistent.isUnique(${initialLowercaseEntityName}Query)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_DATA_CONTENTION_ERROR, new String[] { ${initialLowercaseEntityName}Persistent.getNotUniqueErrorMessage(${initialLowercaseEntityName}Query) });
+${ci}${ci}${ci}}

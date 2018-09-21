@@ -1,0 +1,8 @@
+package ${entityPackageName};
+
+/**
+ * [${dtNameAnnotation}]实体类, 表名[${dtName}].
+ */
+public class ${initialCaseEntityName} implements java.io.Serializable {
+
+${ci}private static final long serialVersionUID = 1L;

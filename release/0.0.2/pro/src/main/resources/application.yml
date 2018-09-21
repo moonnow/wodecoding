@@ -1,0 +1,17 @@
+server:
+  port: 6680
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wodecoding?useUnicode=yes&characterEncoding=utf8&useSSL=false
+    username: root
+    password: moonnow
+
+logging:
+  level:
+    root: DEBUG
+
+mybatis:
+  mapper-locations: classpath*:com/pro/**/mapping/*.xml
+  type-aliases-package: com.pro.**.entity

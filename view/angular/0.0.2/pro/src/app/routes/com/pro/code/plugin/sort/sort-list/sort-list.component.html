@@ -1,0 +1,31 @@
+<page-header [title]="'排序列表'"></page-header>
+<nz-card [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="addSort()" [nzType]="'primary'">
+      <i class="anticon anticon-plus-circle-o"></i>
+      <span>新建</span>
+    </button>
+    <button nz-button (click)="upSort()" [nzType]="'dashed'" *ngIf="listLength === 1">
+      <i class="anticon anticon-edit"></i>
+      <span>编辑</span>
+    </button>
+    <button nz-button (click)="delSort()" [nzType]="'danger'" *ngIf="listLength > 0">
+      <i class="anticon anticon-delete"></i>
+      <span>删除</span>
+    </button>
+    <button nz-button (click)="detailSort()" [nzType]="'default'" *ngIf="listLength === 1">
+      <i class="anticon anticon-info-circle-o"></i>
+      <span>详情</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <simple-table [data]="dataSet" [columns]="columns" (checkboxChange)="checkboxChange($event)" [scroll]="{x: '900px'}" [showPagination]="false"></simple-table>
+    <div class="pagination-height"></div>
+    <div nz-row nzType="flex" nzJustify="center">
+      <nz-pagination [nzPageIndex]="page" [nzTotal]="count" nzShowSizeChanger [nzPageSize]="rows" nzShowQuickJumper [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" (nzPageSizeChange)="pageSizeChange($event)"></nz-pagination>
+    </div>
+  </nz-spin>
+</nz-card>
+<ng-template #rangeTemplate let-range="range" let-total>
+  当前页 {{range[0]}}-{{range[1]}} 共 {{total}} 条数据
+</ng-template>

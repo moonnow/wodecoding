@@ -1,0 +1,11 @@
+${ci}${ci}${ci}<nz-form-item>
+${ci}${ci}${ci}${ci}<nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+${ci}${ci}${ci}${ci}${ci}<a nz-button class="ml-sm" (click)="goBack()">取消</a>
+${ci}${ci}${ci}${ci}${ci}<a nz-button nzType="dashed" (click)="resetForm()">重置</a>
+${ci}${ci}${ci}${ci}${ci}<button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isContinue()">保存并继续录入</button>
+${ci}${ci}${ci}${ci}${ci}<button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isNotContinue()">保存</button>
+${ci}${ci}${ci}${ci}</nz-form-control>
+${ci}${ci}${ci}</nz-form-item>
+${ci}${ci}</form>
+${ci}</nz-spin>
+</nz-card>

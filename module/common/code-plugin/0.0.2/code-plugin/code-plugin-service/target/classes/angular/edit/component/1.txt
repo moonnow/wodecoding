@@ -1,0 +1,33 @@
+import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { ${initialCaseEntityName} } from '@com/${controllerUrl}${initialLowercaseEntityName}/${initialLowercaseEntityName}';
+import { ${initialCaseEntityName}Service } from '@com/${controllerUrl}${initialLowercaseEntityName}/${initialLowercaseEntityName}.service';
+
+@Component({
+${ci}selector: '${initialLowercaseEntityName}-edit',
+${ci}templateUrl: './${initialLowercaseEntityName}-edit.component.html',
+${ci}styleUrls: ['./${initialLowercaseEntityName}-edit.component.css']
+})
+export class ${initialCaseEntityName}EditComponent implements OnInit {
+${ci}${initialLowercaseEntityName}Form: FormGroup;
+${ci}${initialLowercaseEntityName}: ${initialCaseEntityName} = new ${initialCaseEntityName}();
+${ci}submitting = false;
+${ci}continue: boolean;
+${ci}isSpinning: boolean = true;
+
+${ci}constructor(
+${ci}${ci}private msg: NzMessageService,
+${ci}${ci}private location: Location,
+${ci}${ci}private router: Router,
+${ci}${ci}private route: ActivatedRoute,
+${ci}${ci}private fb: FormBuilder,
+${ci}${ci}private ${initialLowercaseEntityName}Service: ${initialCaseEntityName}Service
+${ci}) { }
+
+${ci}ngOnInit(): void {
+${ci}${ci}this.${initialLowercaseEntityName}Form = this.fb.group({
+${ci}${ci}${ci}${primaryKeyInitialLowercaseColumnName}: [null, Validators.compose([])],

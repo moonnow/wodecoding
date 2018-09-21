@@ -1,0 +1,18 @@
+<page-header [title]="'会话详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="goBack()" [nzType]="'default'">
+      <i class="anticon anticon-left-circle-o"></i>
+      <span>返回</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <desc-list size="large" title="基本信息" class="mb-lg">
+      <desc-list-item term="会话编号">{{huihua.huihuaId}}</desc-list-item>
+      <desc-list-item term="账号编号">{{huihua.zhanghaoId}}</desc-list-item>
+      <desc-list-item term="帐号">{{huihua.account}}</desc-list-item>
+      <desc-list-item term="昵称">{{huihua.nicheng}}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-lg"></nz-divider>
+  </nz-spin>
+</nz-card>

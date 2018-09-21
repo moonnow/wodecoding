@@ -1,0 +1,28 @@
+${ci}${ci}});
+${ci}${ci}this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName} = this.route.snapshot.paramMap.get('${primaryKeyInitialLowercaseColumnName}');
+${ci}${ci}if (this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName}) {
+${ci}${ci}${ci}this.${initialLowercaseEntityName}Service.getByPk(this.${initialLowercaseEntityName}.${primaryKeyInitialLowercaseColumnName})
+${ci}${ci}${ci}${ci}.subscribe(
+${ci}${ci}${ci}${ci}${ci}data => {
+${ci}${ci}${ci}${ci}${ci}${ci}if (data['isSuccess'] && data['statusCode'] === 200) {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName} = data['data'][0];
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.${initialLowercaseEntityName}Form.patchValue(this.${initialLowercaseEntityName});
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error(data['msg'], { nzDuration: 6000 });
+${ci}${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}${ci}error => {
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error('请求失败！状态码 ' + error['status'] + ' ' + error['statusText']);
+${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci});
+${ci}${ci}} else {
+${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}}
+${ci}}
+
+${ci}get ${primaryKeyInitialLowercaseColumnName}() {
+${ci}${ci}return this.${initialLowercaseEntityName}Form.controls['${primaryKeyInitialLowercaseColumnName}'];
+${ci}}

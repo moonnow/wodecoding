@@ -1,0 +1,29 @@
+import { NgModule } from '@angular/core';
+import { SharedModule } from '@shared/shared.module';
+
+import { ${initialCaseEntityName}RoutingModule } from './${initialLowercaseEntityName}-routing.module';
+import { ${initialCaseEntityName}ListComponent } from './${initialLowercaseEntityName}-list/${initialLowercaseEntityName}-list.component';
+import { ${initialCaseEntityName}EditComponent } from './${initialLowercaseEntityName}-edit/${initialLowercaseEntityName}-edit.component';
+import { ${initialCaseEntityName}DetailComponent } from './${initialLowercaseEntityName}-detail/${initialLowercaseEntityName}-detail.component';
+
+const COMPONENTS = [
+${ci}${initialCaseEntityName}ListComponent,
+${ci}${initialCaseEntityName}EditComponent,
+${ci}${initialCaseEntityName}DetailComponent
+];
+
+const COMPONENT_NOROUNT = [
+];
+
+@NgModule({
+${ci}imports: [
+${ci}${ci}SharedModule,
+${ci}${ci}${initialCaseEntityName}RoutingModule
+${ci}],
+${ci}declarations: [
+${ci}${ci}...COMPONENTS,
+${ci}${ci}...COMPONENT_NOROUNT
+${ci}],
+${ci}entryComponents: COMPONENT_NOROUNT
+})
+export class ${initialCaseEntityName}Module { }

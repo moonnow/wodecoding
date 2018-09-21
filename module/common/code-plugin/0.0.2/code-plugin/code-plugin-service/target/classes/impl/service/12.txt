@@ -1,0 +1,1 @@
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Query.set${initialCaseUniqueColumnName}("or");

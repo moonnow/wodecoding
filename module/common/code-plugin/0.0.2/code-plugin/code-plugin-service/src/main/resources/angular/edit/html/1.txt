@@ -1,0 +1,6 @@
+<page-header [title]="'编辑${dtNameAnnotation}'">
+${ci}请填写${dtNameAnnotation}。
+</page-header>
+<nz-card [nzBordered]="false">
+${ci}<nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+${ci}${ci}<form nz-form [formGroup]="${initialLowercaseEntityName}Form" (ngSubmit)="submit()">

@@ -1,0 +1,23 @@
+<page-header [title]="'列详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="goBack()" [nzType]="'default'">
+      <i class="anticon anticon-left-circle-o"></i>
+      <span>返回</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <desc-list size="large" title="基本信息" class="mb-lg">
+      <desc-list-item term="列编号">{{columns.columnsId}}</desc-list-item>
+      <desc-list-item term="列名">{{columns.columnName}}</desc-list-item>
+      <desc-list-item term="列名注释">{{columns.columnNameAnnotation}}</desc-list-item>
+      <desc-list-item term="数据类型">{{columns.dataType}}</desc-list-item>
+      <desc-list-item term="是否为空">{{columns.isNull}}</desc-list-item>
+      <desc-list-item term="首字母大写列名">{{columns.initialCaseColumnName}}</desc-list-item>
+      <desc-list-item term="首字母小写列名">{{columns.initialLowercaseColumnName}}</desc-list-item>
+      <desc-list-item term="排序权重">{{columns.weightOrder}}</desc-list-item>
+      <desc-list-item term="数据库表编号">{{columns.dtId}}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-lg"></nz-divider>
+  </nz-spin>
+</nz-card>

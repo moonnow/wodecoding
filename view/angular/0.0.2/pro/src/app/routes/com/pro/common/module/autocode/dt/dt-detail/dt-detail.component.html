@@ -1,0 +1,24 @@
+<page-header [title]="'数据库表信息详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="goBack()" [nzType]="'default'">
+      <i class="anticon anticon-left-circle-o"></i>
+      <span>返回</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <desc-list size="large" title="基本信息" class="mb-lg">
+      <desc-list-item term="数据库表编号">{{dt.dtId}}</desc-list-item>
+      <desc-list-item term="表名">{{dt.dtName}}</desc-list-item>
+      <desc-list-item term="表名注释">{{dt.dtNameAnnotation}}</desc-list-item>
+      <desc-list-item term="数据库表前缀">{{dt.dtPrefix}}</desc-list-item>
+      <desc-list-item term="首字母大写实体类名">{{dt.initialCaseEntityName}}</desc-list-item>
+      <desc-list-item term="首字母小写实体类名">{{dt.initialLowercaseEntityName}}</desc-list-item>
+      <desc-list-item term="项目路径">{{dt.proPath}}</desc-list-item>
+      <desc-list-item term="项目全称">{{dt.proAllName}}</desc-list-item>
+      <desc-list-item term="项目名称">{{dt.proName}}</desc-list-item>
+      <desc-list-item term="数据库表sql">{{dt.dtSql}}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-lg"></nz-divider>
+  </nz-spin>
+</nz-card>

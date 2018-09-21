@@ -1,0 +1,129 @@
+${ci}${ci}{
+${ci}${ci}${ci}title: '操作',
+${ci}${ci}${ci}fixed: 'right',
+${ci}${ci}${ci}width: '180px',
+${ci}${ci}${ci}buttons: [
+${ci}${ci}${ci}${ci}{
+${ci}${ci}${ci}${ci}${ci}text: '编辑',
+${ci}${ci}${ci}${ci}${ci}click: (record: any, modal: any) => this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/edit/' + record['${primaryKeyInitialLowercaseColumnName}'] ])
+${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}{
+${ci}${ci}${ci}${ci}${ci}text: '删除',
+${ci}${ci}${ci}${ci}${ci}type: 'del',
+${ci}${ci}${ci}${ci}${ci}click: (record: any) => this.remove(record)
+${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}{
+${ci}${ci}${ci}${ci}${ci}text: '详情',
+${ci}${ci}${ci}${ci}${ci}click: (record: any, modal: any) => this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/detail/' + record['${primaryKeyInitialLowercaseColumnName}'] ])
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}]
+${ci}${ci}}
+${ci}];
+
+${ci}constructor(
+${ci}${ci}private msg: NzMessageService,
+${ci}${ci}private router: Router,
+${ci}${ci}private ${initialLowercaseEntityName}Service: ${initialCaseEntityName}Service
+${ci}) { }
+
+${ci}ngOnInit() {
+${ci}${ci}this.getDataSet();
+${ci}}
+
+${ci}add${initialCaseEntityName}() {
+${ci}${ci}this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/edit' ]);
+${ci}}
+
+${ci}up${initialCaseEntityName}() {
+${ci}${ci}this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/edit/' + this.list[0]['${primaryKeyInitialLowercaseColumnName}'] ]);
+${ci}}
+
+${ci}del${initialCaseEntityName}() {
+${ci}${ci}this.batchRemove();
+${ci}}
+
+${ci}detail${initialCaseEntityName}() {
+${ci}${ci}this.router.navigate([ '/${controllerUrl}${initialLowercaseEntityName}/detail/' + this.list[0]['${primaryKeyInitialLowercaseColumnName}'] ]);
+${ci}}
+
+${ci}checkboxChange(list: any[]) {
+${ci}${ci}this.listLength = list.length;
+${ci}${ci}this.list = list;
+${ci}}
+
+${ci}pageIndexChange(nzPageIndex) {
+${ci}${ci}this.page = nzPageIndex;
+${ci}${ci}this.getDataSet();
+${ci}}
+
+${ci}pageSizeChange(nzPageSize) {
+${ci}${ci}this.rows = nzPageSize;
+${ci}${ci}this.page = 1;
+${ci}${ci}this.getDataSet();
+${ci}}
+
+${ci}getDataSet() {
+${ci}${ci}this.isSpinning = true;
+${ci}${ci}this.${initialLowercaseEntityName}Service.paging(this.rows, this.page)
+${ci}${ci}${ci}.subscribe(
+${ci}${ci}${ci}${ci}data => {
+${ci}${ci}${ci}${ci}${ci}if (data['isSuccess'] && data['statusCode'] === 200) {
+${ci}${ci}${ci}${ci}${ci}${ci}this.dataSet = data['data'];
+${ci}${ci}${ci}${ci}${ci}${ci}this.count = data['count'];
+${ci}${ci}${ci}${ci}${ci}${ci}this.rows = data['rows'];
+${ci}${ci}${ci}${ci}${ci}${ci}this.page = data['page'];
+${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error(data['msg'], { nzDuration: 6000 });
+${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}error => {
+${ci}${ci}${ci}${ci}${ci}this.msg.error('请求失败！状态码 ' + error['status'] + ' ' + error['statusText']);
+${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci});
+${ci}}
+
+${ci}remove(record) {
+${ci}${ci}this.isSpinning = true;
+${ci}${ci}this.${initialLowercaseEntityName}Service.remove(record)
+${ci}${ci}${ci}.subscribe(
+${ci}${ci}${ci}${ci}data => {
+${ci}${ci}${ci}${ci}${ci}if (data['isSuccess'] && data['statusCode'] === 200) {
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.success(`${dtNameAnnotation}删除成功.`);
+${ci}${ci}${ci}${ci}${ci}${ci}this.getDataSet();
+${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error(data['msg'], { nzDuration: 6000 });
+${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}error => {
+${ci}${ci}${ci}${ci}${ci}this.msg.error('请求失败！状态码 ' + error['status'] + ' ' + error['statusText']);
+${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci});
+${ci}}
+
+${ci}batchRemove() {
+${ci}${ci}this.isSpinning = true;
+${ci}${ci}this.${initialLowercaseEntityName}Service.batchRemove(this.list)
+${ci}${ci}${ci}.subscribe(
+${ci}${ci}${ci}${ci}data => {
+${ci}${ci}${ci}${ci}${ci}if (data['isSuccess'] && data['statusCode'] === 200) {
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.success(`${dtNameAnnotation}删除成功.`);
+${ci}${ci}${ci}${ci}${ci}${ci}this.getDataSet();
+${ci}${ci}${ci}${ci}${ci}${ci}this.list = Array.of();
+${ci}${ci}${ci}${ci}${ci}${ci}this.listLength = this.list.length;
+${ci}${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${ci}this.msg.error(data['msg'], { nzDuration: 6000 });
+${ci}${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}},
+${ci}${ci}${ci}${ci}error => {
+${ci}${ci}${ci}${ci}${ci}this.msg.error('请求失败！状态码 ' + error['status'] + ' ' + error['statusText']);
+${ci}${ci}${ci}${ci}${ci}this.isSpinning = false;
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci});
+${ci}}
+}

@@ -1,0 +1,1 @@
+${initialLowercaseEntityName}Query.get${initialCaseUniqueColumnName}().equals(old${initialCaseEntityName}.get${initialCaseColumnName}())

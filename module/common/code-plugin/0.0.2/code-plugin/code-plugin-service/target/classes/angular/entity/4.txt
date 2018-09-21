@@ -1,0 +1,1 @@
+${ci}${ci}this.${initialLowercaseColumnName} = ${initValue};

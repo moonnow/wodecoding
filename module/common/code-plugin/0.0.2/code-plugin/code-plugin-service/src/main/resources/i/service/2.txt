@@ -1,0 +1,2 @@
+import ${entityPackageName}.${initialCaseEntityName};
+import ${queryEntityPackageName}.${initialCaseEntityName}Query;

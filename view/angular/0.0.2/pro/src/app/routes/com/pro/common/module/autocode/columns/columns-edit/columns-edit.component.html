@@ -1,0 +1,68 @@
+<page-header [title]="'编辑列'">
+  请填写列。
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="columnsForm" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="columnName">列名</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="columnName" id="columnName" placeholder="输入列名">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="columnNameAnnotation">列名注释</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="columnNameAnnotation" id="columnNameAnnotation" placeholder="输入列名注释">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="dataType">数据类型</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="dataType" id="dataType" placeholder="输入数据类型">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="isNull">是否为空</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="isNull" id="isNull" placeholder="输入是否为空">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="initialCaseColumnName">首字母大写列名</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="initialCaseColumnName" id="initialCaseColumnName" placeholder="输入首字母大写列名">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="initialLowercaseColumnName">首字母小写列名</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="initialLowercaseColumnName" id="initialLowercaseColumnName" placeholder="输入首字母小写列名">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="weightOrder">排序权重</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <nz-input-number formControlName="weightOrder" id="weightOrder" placeholder="输入排序权重"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="dtId">数据库表编号</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="dtId" id="dtId" placeholder="输入数据库表编号">
+          <ng-container *ngIf="dtId.dirty || dtId.touched">
+            <nz-form-explain *ngIf="dtId.errors?.required">请输入数据库表编号</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+          <a nz-button class="ml-sm" (click)="goBack()">取消</a>
+          <a nz-button nzType="dashed" (click)="resetForm()">重置</a>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isContinue()">保存并继续录入</button>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isNotContinue()">保存</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+</nz-card>

@@ -1,0 +1,66 @@
+package ${exceptionPackageName};
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import com.pro.tool.exception.ErrorMessageUtilities;
+import com.pro.tool.exception.ToolException;
+
+public class ${proName}Exception extends ToolException {
+
+${ci}private static final long serialVersionUID = 1L;
+
+${ci}private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(${proName}Exception.class);
+
+${ci}private final static Properties errorMessages = new Properties();
+${ci}private static volatile boolean isLoadMessage = false;
+
+${ci}/**
+${ci} * 加载异常资源文件：ErrorCode.properties，默认编码为GBK
+${ci} */
+${ci}private static synchronized void reload() {
+${ci}${ci}if (!isLoadMessage) {
+${ci}${ci}${ci}isLoadMessage = true;
+${ci}${ci}${ci}InputStream is = ${proName}Exception.class.getResourceAsStream("ErrorCode.properties");
+${ci}${ci}${ci}if (is != null) {
+${ci}${ci}${ci}${ci}try {
+${ci}${ci}${ci}${ci}${ci}errorMessages.load(is);
+${ci}${ci}${ci}${ci}${ci}isLoadMessage = true;
+${ci}${ci}${ci}${ci}} catch (IOException ioe) {
+${ci}${ci}${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}${ci}${ci}log.error("ErrorCode.properties load is error !!!", ioe);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}}
+${ci}}
+
+${ci}protected ${proName}Exception(int errCode, String errMessage, Exception innerException) {
+${ci}${ci}super(errCode, errMessage, innerException);
+${ci}}
+
+${ci}public static ${proName}Exception getException(int errCode) {
+${ci}${ci}return getException(null, errCode);
+${ci}}
+
+${ci}public static ${proName}Exception getException(int errCode, String... lstPattern) {
+${ci}${ci}return getException(null, errCode, lstPattern);
+${ci}}
+
+${ci}public static ${proName}Exception getException(Exception innerException, int errCode, String... lstPattern) {
+${ci}${ci}String errMessage = codeToMessage(errCode, lstPattern);
+${ci}${ci}return new ${proName}Exception(errCode, errMessage, innerException);
+${ci}}
+
+${ci}private static String codeToMessage(int errCode, String... lstPattern) {
+${ci}${ci}reload();
+${ci}${ci}String errCodeStr = Integer.toString(errCode);
+${ci}${ci}String errorMessage = ErrorMessageUtilities.codeToMessage(errorMessages, errCode, lstPattern);
+${ci}${ci}if (errorMessage == null || errorMessage.equals(errCodeStr)) {
+${ci}${ci}${ci}errorMessage = ToolException.itselfCodeToMessage(errCode, lstPattern);
+${ci}${ci}}
+${ci}${ci}return errorMessage;
+${ci}}
+
+}

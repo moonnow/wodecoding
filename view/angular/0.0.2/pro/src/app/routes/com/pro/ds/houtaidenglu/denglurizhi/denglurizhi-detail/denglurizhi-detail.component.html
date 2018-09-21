@@ -1,0 +1,20 @@
+<page-header [title]="'登录日志详情'"></page-header>
+<nz-card [nzHoverable]="true" [nzBordered]="false">
+  <div class="mb-md">
+    <button nz-button (click)="goBack()" [nzType]="'default'">
+      <i class="anticon anticon-left-circle-o"></i>
+      <span>返回</span>
+    </button>
+  </div>
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <desc-list size="large" title="基本信息" class="mb-lg">
+      <desc-list-item term="登录日志编号">{{denglurizhi.denglurizhiId}}</desc-list-item>
+      <desc-list-item term="账号编号">{{denglurizhi.zhanghaoId}}</desc-list-item>
+      <desc-list-item term="帐号">{{denglurizhi.account}}</desc-list-item>
+      <desc-list-item term="昵称">{{denglurizhi.nicheng}}</desc-list-item>
+      <desc-list-item term="登录时间">{{denglurizhi.denglushijian}}</desc-list-item>
+      <desc-list-item term="登录信息">{{denglurizhi.dengluxinxi}}</desc-list-item>
+    </desc-list>
+    <nz-divider class="mb-lg"></nz-divider>
+  </nz-spin>
+</nz-card>

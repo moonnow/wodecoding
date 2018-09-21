@@ -1,0 +1,59 @@
+<page-header [title]="'编辑登录日志'">
+  请填写登录日志。
+</page-header>
+<nz-card [nzBordered]="false">
+  <nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+    <form nz-form [formGroup]="denglurizhiForm" (ngSubmit)="submit()">
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="zhanghaoId">账号编号</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="zhanghaoId" id="zhanghaoId" placeholder="输入账号编号">
+          <ng-container *ngIf="zhanghaoId.dirty || zhanghaoId.touched">
+            <nz-form-explain *ngIf="zhanghaoId.errors?.required">请输入账号编号</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="account">帐号</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="account" id="account" placeholder="输入帐号">
+          <ng-container *ngIf="account.dirty || account.touched">
+            <nz-form-explain *ngIf="account.errors?.required">请输入帐号</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="nicheng">昵称</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="nicheng" id="nicheng" placeholder="输入昵称">
+          <ng-container *ngIf="nicheng.dirty || nicheng.touched">
+            <nz-form-explain *ngIf="nicheng.errors?.required">请输入昵称</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="denglushijian">登录时间</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <nz-input-number formControlName="denglushijian" id="denglushijian" placeholder="输入登录时间"></nz-input-number>
+          <ng-container *ngIf="denglushijian.dirty || denglushijian.touched">
+            <nz-form-explain *ngIf="denglushijian.errors?.required">请输入登录时间</nz-form-explain>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzXs="24" nzSm="7" nzFor="dengluxinxi">登录信息</nz-form-label>
+        <nz-form-control nzXs="24" nzSm="12" nzMd="10">
+          <input nz-input formControlName="dengluxinxi" id="dengluxinxi" placeholder="输入登录信息">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 10, offset: 7 }">
+          <a nz-button class="ml-sm" (click)="goBack()">取消</a>
+          <a nz-button nzType="dashed" (click)="resetForm()">重置</a>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isContinue()">保存并继续录入</button>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="submitting" (click)="isNotContinue()">保存</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+</nz-card>

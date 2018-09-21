@@ -1,0 +1,11 @@
+package ${iServicePackageName};
+
+import java.util.Collection;
+
+import ${exceptionPackageName}.${proName}Exception;
+import com.pro.tool.util.Paging;
+import com.pro.tool.util.Parameter;
+
+public interface I${proName}Service {
+
+}

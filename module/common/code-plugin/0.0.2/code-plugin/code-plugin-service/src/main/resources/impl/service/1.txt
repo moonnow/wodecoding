@@ -1,0 +1,19 @@
+package ${serviceImplPackageName};
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import ${exceptionPackageName}.${proName}Exception;
+import ${iServicePackageName}.I${proName}Service;
+import com.pro.tool.util.Paging;
+import com.pro.tool.util.Parameter;
+import com.pro.tool.util.ToolUtil;
+
+@org.springframework.stereotype.Service("${serviceImplNamePrefix}${proName}Service")
+@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.NOT_SUPPORTED, readOnly = true, rollbackFor = java.lang.Exception.class)
+public class ${proName}ServiceImpl implements I${proName}Service {
+
+${ci}private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(${proName}ServiceImpl.class);
+
+}

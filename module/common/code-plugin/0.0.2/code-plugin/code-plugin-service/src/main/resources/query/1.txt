@@ -1,0 +1,8 @@
+package ${queryPackageName};
+
+/**
+ * [${dtNameAnnotation}]查询类, 表名[${dtName}].
+ */
+public class ${initialCaseEntityName}Query implements java.io.Serializable {
+
+${ci}private static final long serialVersionUID = 1L;

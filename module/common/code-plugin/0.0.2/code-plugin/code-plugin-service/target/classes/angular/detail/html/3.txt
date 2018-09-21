@@ -1,0 +1,4 @@
+${ci}${ci}</desc-list>
+${ci}${ci}<nz-divider class="mb-lg"></nz-divider>
+${ci}</nz-spin>
+</nz-card>

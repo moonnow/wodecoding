@@ -1,0 +1,31 @@
+<page-header [title]="'${dtNameAnnotation}列表'"></page-header>
+<nz-card [nzBordered]="false">
+${ci}<div class="mb-md">
+${ci}${ci}<button nz-button (click)="add${initialCaseEntityName}()" [nzType]="'primary'">
+${ci}${ci}${ci}<i class="anticon anticon-plus-circle-o"></i>
+${ci}${ci}${ci}<span>新建</span>
+${ci}${ci}</button>
+${ci}${ci}<button nz-button (click)="up${initialCaseEntityName}()" [nzType]="'dashed'" *ngIf="listLength === 1">
+${ci}${ci}${ci}<i class="anticon anticon-edit"></i>
+${ci}${ci}${ci}<span>编辑</span>
+${ci}${ci}</button>
+${ci}${ci}<button nz-button (click)="del${initialCaseEntityName}()" [nzType]="'danger'" *ngIf="listLength > 0">
+${ci}${ci}${ci}<i class="anticon anticon-delete"></i>
+${ci}${ci}${ci}<span>删除</span>
+${ci}${ci}</button>
+${ci}${ci}<button nz-button (click)="detail${initialCaseEntityName}()" [nzType]="'default'" *ngIf="listLength === 1">
+${ci}${ci}${ci}<i class="anticon anticon-info-circle-o"></i>
+${ci}${ci}${ci}<span>详情</span>
+${ci}${ci}</button>
+${ci}</div>
+${ci}<nz-spin [nzSize]="'large'" nzTip="Loading..." [nzSpinning]="isSpinning">
+${ci}${ci}<simple-table [data]="dataSet" [columns]="columns" (checkboxChange)="checkboxChange($event)" [scroll]="{x: '940px'}" [showPagination]="false"></simple-table>
+${ci}${ci}<div class="pagination-height"></div>
+${ci}${ci}<div nz-row nzType="flex" nzJustify="center">
+${ci}${ci}${ci}<nz-pagination [nzPageIndex]="page" [nzTotal]="count" nzShowSizeChanger [nzPageSize]="rows" nzShowQuickJumper [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" (nzPageSizeChange)="pageSizeChange($event)"></nz-pagination>
+${ci}${ci}</div>
+${ci}</nz-spin>
+</nz-card>
+<ng-template #rangeTemplate let-range="range" let-total>
+${ci}当前页 {{range[0]}}-{{range[1]}} 共 {{total}} 条数据
+</ng-template>

@@ -1,0 +1,343 @@
+${ci}@javax.annotation.Resource(name = "${persistentImplNamePrefix}${initialCaseEntityName}Persistent")
+${ci}private I${initialCaseEntityName}Persistent ${initialLowercaseEntityName}Persistent;
+
+${ci}@Override
+${ci}@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
+${ci}public void save${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.save${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseEntityName}.set${primaryKeyInitialCaseColumnName}(ToolUtil.getUUID());
+${saveUnique}${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.save${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
+${ci}public void batchSave${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.batchSave${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}.set${primaryKeyInitialCaseColumnName}(ToolUtil.getUUID());
+${batchSaveUnique}${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.batchSave${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
+${ci}public void update${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.update${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${primaryKeyInitialLowercaseColumnName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}if (old${initialCaseEntityName} == null) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_UPDATE_DATA_NOT_FIND_ERROR);
+${ci}${ci}${ci}}
+${updateUnique}${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.update${initialCaseEntityName}(${initialLowercaseEntityName});
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
+${ci}public void batchUpdate${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.batchUpdate${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${primaryKeyInitialLowercaseColumnName} ");
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}if (old${initialCaseEntityName} == null) {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_UPDATE_DATA_NOT_FIND_ERROR);
+${ci}${ci}${ci}${ci}}
+${batchUpdateUnique}${ci}${ci}${ci}}
+${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.batchUpdate${initialCaseEntityName}(${initialLowercaseEntityName}s);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
+${ci}public void remove${initialCaseEntityName}(${initialCaseEntityName} ${initialLowercaseEntityName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.remove${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName} is : " + ${initialLowercaseEntityName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (${initialLowercaseEntityName} == null || ToolUtil.isNullEntityAllFieldValue(${initialLowercaseEntityName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Set<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = new LinkedHashSet<>();
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}${initialCaseEntityName}Query ${initialLowercaseEntityName}Query = ToolUtil.attributeReplication(${initialCaseEntityName}Query.class, ${initialLowercaseEntityName});
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.addAll(${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}if (old${initialCaseEntityName} == null) {
+${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_UPDATE_DATA_NOT_FIND_ERROR);
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.add(old${initialCaseEntityName});
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.batchRemove${initialCaseEntityName}(${initialLowercaseEntityName}Set);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}@org.springframework.transaction.annotation.Transactional(propagation = org.springframework.transaction.annotation.Propagation.REQUIRED, readOnly = false)
+${ci}public void batchRemove${initialCaseEntityName}(Collection<${initialCaseEntityName}> ${initialLowercaseEntityName}s) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.batchRemove${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}s is : " + ${initialLowercaseEntityName}s);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isEmpty(${initialLowercaseEntityName}s)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${initialLowercaseEntityName}s ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}Set<${initialCaseEntityName}> ${initialLowercaseEntityName}Set = new LinkedHashSet<>();
+${ci}${ci}${ci}for (${initialCaseEntityName} ${initialLowercaseEntityName} : ${initialLowercaseEntityName}s) {
+${ci}${ci}${ci}${ci}if (ToolUtil.isNullStr(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}())) {
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName}Query ${initialLowercaseEntityName}Query = ToolUtil.attributeReplication(${initialCaseEntityName}Query.class, ${initialLowercaseEntityName});
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.addAll(${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}(${initialLowercaseEntityName}Query));
+${ci}${ci}${ci}${ci}} else {
+${ci}${ci}${ci}${ci}${ci}${initialCaseEntityName} old${initialCaseEntityName} = ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${initialLowercaseEntityName}.get${primaryKeyInitialCaseColumnName}());
+${ci}${ci}${ci}${ci}${ci}if (old${initialCaseEntityName} == null) {
+${ci}${ci}${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_UPDATE_DATA_NOT_FIND_ERROR);
+${ci}${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Set.add(old${initialCaseEntityName});
+${ci}${ci}${ci}${ci}}
+${ci}${ci}${ci}}
+${ci}${ci}${ci}if (ToolUtil.isNotEmpty(${initialLowercaseEntityName}Set)) {
+${ci}${ci}${ci}${ci}${initialLowercaseEntityName}Persistent.batchRemove${initialCaseEntityName}(${initialLowercaseEntityName}Set);
+${ci}${ci}${ci}}
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Long getCount${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.getCount${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.getCount${initialCaseEntityName}(${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public ${initialCaseEntityName} get${initialCaseEntityName}ByPk(${primaryKeyDataType} ${primaryKeyInitialLowercaseColumnName}) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.get${initialCaseEntityName}ByPk ");
+${ci}${ci}${ci}log.debug("parameter ${primaryKeyInitialLowercaseColumnName} is : " + ${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (ToolUtil.isNullStr(${primaryKeyInitialLowercaseColumnName})) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " ${primaryKeyInitialLowercaseColumnName} ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.get${initialCaseEntityName}ByPk(${primaryKeyInitialLowercaseColumnName});
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> getAll${initialCaseEntityName}() throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.getAll${initialCaseEntityName} ");
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.getAll${initialCaseEntityName}();
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}> pagingGet${initialCaseEntityName}(Parameter parameter) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.pagingGet${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (parameter == null || ToolUtil.isNullEntityAllFieldValue(parameter)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " parameter ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.pagingGet${initialCaseEntityName}(parameter);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Collection<${initialCaseEntityName}> query${initialCaseEntityName}(${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.query${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.query${initialCaseEntityName}(${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+${ci}@Override
+${ci}public Paging<${initialCaseEntityName}> pagingQuery${initialCaseEntityName}(Parameter parameter, ${initialCaseEntityName}Query ${initialLowercaseEntityName}Query) throws ${proName}Exception {
+${ci}${ci}if (log.isDebugEnabled()) {
+${ci}${ci}${ci}log.debug("Staring call ${proName}Service.pagingQuery${initialCaseEntityName} ");
+${ci}${ci}${ci}log.debug("parameter parameter is : " + parameter);
+${ci}${ci}${ci}log.debug("parameter ${initialLowercaseEntityName}Query is : " + ${initialLowercaseEntityName}Query);
+${ci}${ci}}
+${ci}${ci}try {
+${ci}${ci}${ci}if (parameter == null || ToolUtil.isNullEntityAllFieldValue(parameter)) {
+${ci}${ci}${ci}${ci}throw ${proName}Exception.getException(${proName}Exception.FW_PARAMETER_IS_NULL_ERROR, " parameter ");
+${ci}${ci}${ci}}
+${ci}${ci}${ci}return ${initialLowercaseEntityName}Persistent.pagingQuery${initialCaseEntityName}(parameter, ${initialLowercaseEntityName}Query);
+${ci}${ci}} catch (${proName}Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw e;
+${ci}${ci}} catch (Exception e) {
+${ci}${ci}${ci}if (log.isErrorEnabled()) {
+${ci}${ci}${ci}${ci}log.error(e.getMessage(), e);
+${ci}${ci}${ci}}
+${ci}${ci}${ci}throw ${proName}Exception.getException(e, ${proName}Exception.FW_ERROR, e.getMessage());
+${ci}${ci}}
+${ci}}
+
+}
